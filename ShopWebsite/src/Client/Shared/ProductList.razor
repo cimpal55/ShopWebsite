@@ -14,10 +14,6 @@
                     <h4 class="mb-0">@product.Title</h4>
                 </a>
                 <p>@product.Description</p>
-                @if (product.OriginalPrice > product.Price)
-                {
-                    <h6 class="text-muted original-price">$@product.OriginalPrice</h6>
-                }
                 <h5 class="price">
                     $@product.Price
                 </h5>
@@ -31,8 +27,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await Http.GetFromJsonAsync<List<Product>>("api/product");
-        if (result != null)
-            Products = result;
+        var result = await Http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product");
+        if (result != null && result.Data != null)
+            Products = result.Data;
     }
 }

@@ -1,7 +1,10 @@
 global using ShopWebsite.Shared.Models.Data;
+global using ShopWebsite.Shared.Models.Services;
 global using Microsoft.EntityFrameworkCore;
+global using ShopWebsite.Server.Data;
+global using ShopWebsite.Server.Services.ProductService;
 using Microsoft.AspNetCore.ResponseCompression;
-using ShopWebsite.Server.Data;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
