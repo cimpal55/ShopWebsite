@@ -4,7 +4,7 @@ global using Microsoft.EntityFrameworkCore;
 global using ShopWebsite.Server.Data;
 global using ShopWebsite.Server.Services.ProductService;
 using Microsoft.AspNetCore.ResponseCompression;
-
+using ShopWebsite.Server.Utils.ServiceRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +14,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddShopWebsiteServices();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 

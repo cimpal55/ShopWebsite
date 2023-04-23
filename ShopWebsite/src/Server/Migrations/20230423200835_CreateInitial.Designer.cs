@@ -12,8 +12,8 @@ using ShopWebsite.Server.Data;
 namespace ShopWebsite.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230423164632_ProductSeeding")]
-    partial class ProductSeeding
+    [Migration("20230423200835_CreateInitial")]
+    partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,10 +32,6 @@ namespace ShopWebsite.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Icon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -47,6 +43,26 @@ namespace ShopWebsite.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Books",
+                            Url = "books"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Movies",
+                            Url = "movies"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Video games",
+                            Url = "video-games"
+                        });
                 });
 
             modelBuilder.Entity("ShopWebsite.Shared.Models.Data.Product", b =>
@@ -57,7 +73,7 @@ namespace ShopWebsite.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
@@ -88,7 +104,8 @@ namespace ShopWebsite.Server.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2023, 4, 23, 19, 46, 31, 845, DateTimeKind.Local).AddTicks(9164),
+                            CategoryId = 1,
+                            DateCreated = new DateTime(2023, 4, 23, 23, 8, 35, 589, DateTimeKind.Local).AddTicks(5169),
                             Description = "The Hitchhiker's Guide to the Galaxy[note 1] (sometimes referred to as HG2G,[1] HHGTTG,[2] H2G2,[3] or tHGttG) is a comedy science fiction franchise created by Douglas Adams. Originally a 1978 radio comedy broadcast on BBC Radio 4, it was later adapted to other formats, including stage shows, novels, comic books, a 1981 TV series, a 1984 text-based computer game, and 2005 feature film.",
                             ImageUrl = "https://upload.wikimedia.org/wikipedia/en/b/bd/H2G2_UK_front_cover.jpg",
                             Price = 9.99m,
@@ -97,7 +114,8 @@ namespace ShopWebsite.Server.Migrations
                         new
                         {
                             Id = 2,
-                            DateCreated = new DateTime(2023, 4, 23, 19, 46, 31, 845, DateTimeKind.Local).AddTicks(9196),
+                            CategoryId = 3,
+                            DateCreated = new DateTime(2023, 4, 23, 23, 8, 35, 589, DateTimeKind.Local).AddTicks(5201),
                             Description = "Half-Life 2 is a 2004 first-person shooter game developed and published by Valve. Like the original Half-Life, it combines shooting, puzzles, and storytelling, and adds features such as vehicles and physics-based gameplay.",
                             ImageUrl = "https://upload.wikimedia.org/wikipedia/en/2/25/Half-Life_2_cover.jpg",
                             Price = 8.19m,
@@ -107,14 +125,13 @@ namespace ShopWebsite.Server.Migrations
 
             modelBuilder.Entity("ShopWebsite.Shared.Models.Data.Product", b =>
                 {
-                    b.HasOne("ShopWebsite.Shared.Models.Data.Category", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId");
-                });
+                    b.HasOne("ShopWebsite.Shared.Models.Data.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("ShopWebsite.Shared.Models.Data.Category", b =>
-                {
-                    b.Navigation("Products");
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
