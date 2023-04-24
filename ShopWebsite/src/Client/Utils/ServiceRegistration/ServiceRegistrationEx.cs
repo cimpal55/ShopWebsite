@@ -1,4 +1,5 @@
-﻿namespace ShopWebsite.Client.Utils.ServiceRegistration
+﻿
+namespace ShopWebsite.Client.Utils.ServiceRegistration
 {
     public static class ServiceCollectionEx
     {
@@ -8,6 +9,7 @@
 
         private static IServiceCollection AddServices(this IServiceCollection @this) =>
             @this
-                .AddScoped<IProductService, ProductService>();
+                .AddScoped<IProductService, ProductService>()
+                .AddScoped<ICategoryService, CategoryService>();
     }
 }

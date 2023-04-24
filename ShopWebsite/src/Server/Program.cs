@@ -3,6 +3,7 @@ global using ShopWebsite.Shared.Models.Services;
 global using Microsoft.EntityFrameworkCore;
 global using ShopWebsite.Server.Data;
 global using ShopWebsite.Server.Services.ProductService;
+global using ShopWebsite.Server.Services.CategoryService;
 using Microsoft.AspNetCore.ResponseCompression;
 using ShopWebsite.Server.Utils.ServiceRegistration;
 

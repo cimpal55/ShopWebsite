@@ -2,6 +2,7 @@ global using ShopWebsite.Shared.Models.Data;
 global using ShopWebsite.Shared.Models.Services;
 global using System.Net.Http.Json;
 global using ShopWebsite.Client.Services.ProductService;
+global using ShopWebsite.Client.Services.CategoryService;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using ShopWebsite.Client;
