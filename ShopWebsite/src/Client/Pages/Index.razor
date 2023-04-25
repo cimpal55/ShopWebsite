@@ -3,11 +3,20 @@
 @page "/{categoryUrl}"
 @inject IProductService _productService
 
-<ProductList />
+<PageTitle>Shop Website</PageTitle>
+
+@if(searchString == null && categoryUrl == null)
+{
+    <FeaturedProducts />
+}
+else
+{
+    <ProductList />   
+}
 
 @code {
     [Parameter]
-    public string CategoryUrl { get; set; } = null;
+    public string categoryUrl { get; set; } = null;
 
     [Parameter]
     public string searchString { get; set; } = null;
@@ -20,7 +29,7 @@
         }
         else
         {
-            await _productService.GetProductsAsync(CategoryUrl);
+            await _productService.GetProductsAsync(categoryUrl);
         }
     }
 }

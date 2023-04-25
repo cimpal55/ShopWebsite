@@ -42,9 +42,16 @@ namespace ShopWebsite.Server.Controllers
         }
 
         [HttpGet("searchsuggestions/{searchText}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductSearchSuggestions(string searchText)
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> SearchSuggestions(string searchText)
         {
             var result = await _productService.SearchSuggestions(searchText);
+            return Ok(result);
+        }
+        
+        [HttpGet("featured")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetFeaturedProducts()
+        {
+            var result = await _productService.GetFeaturedProductsAsync();
             return Ok(result);
         }
     }
