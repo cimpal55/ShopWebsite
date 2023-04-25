@@ -33,5 +33,19 @@ namespace ShopWebsite.Server.Controllers
             var result = await _productService.GetProductsByCategoryAsync(categoryUrl);
             return Ok(result);
         }
+
+        [HttpGet("search/{searchString}")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> SearchProducts(string searchString)
+        {
+            var result = await _productService.SearchProducts(searchString);
+            return Ok(result);
+        }
+
+        [HttpGet("searchsuggestions/{searchText}")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductSearchSuggestions(string searchText)
+        {
+            var result = await _productService.SearchSuggestions(searchText);
+            return Ok(result);
+        }
     }
 }

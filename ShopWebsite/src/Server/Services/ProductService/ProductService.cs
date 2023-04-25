@@ -48,5 +48,56 @@
 
             return response;
         }
+        public async Task<ServiceResponse<List<Product>>> SearchProducts(string searchString)
+        {
+            var response = new ServiceResponse<List<Product>>
+            {
+                Data = await FindProductsBySearchString(searchString)
+            };
+
+            return response;
+        }
+
+        private async Task<List<Product>> FindProductsBySearchString(string searchString)
+        {
+            return await _context.Products
+                                .Where(p => p.Title.ToLower().Contains(searchString.ToLower())
+                                || p.Description.ToLower().Contains(searchString.ToLower()))
+                                .Include(p => p.Variants)
+                                .ToListAsync();
+        }
+
+        public async Task<ServiceResponse<List<string>>> SearchSuggestions(string searchString)
+        {
+            var products = await FindProductsBySearchString(searchString);
+
+            List<string> result = new();
+
+            foreach (var product in products)
+            {
+                if (product.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(product.Title);
+                }
+                else if (product.Description != null)
+                {
+                    var punctuation = product.Description.Where(char.IsPunctuation)
+                            .Distinct().ToArray();
+                    var words = product.Description.Split()
+                        .Select(s => s.Trim(punctuation));
+                    
+                    foreach (var word in words)
+                    {
+                        if (word.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                            && !result.Contains(word))
+                        {
+                            result.Add(word);
+                        }
+                    }
+                }
+            }
+
+            return new ServiceResponse<List<string>> { Data = result };
+        }
     }
 }
