@@ -21,5 +21,6 @@ namespace ShopWebsite.Shared.Models.Data
 
         [Column(TypeName = "decimal(18,2)")]
         public decimal OriginalPrice { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

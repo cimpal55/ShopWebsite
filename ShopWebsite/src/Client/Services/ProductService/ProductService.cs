@@ -1,4 +1,6 @@
-﻿namespace ShopWebsite.Client.Services.ProductService
+﻿using ShopWebsite.Shared.Models.DataTransferObjects;
+
+namespace ShopWebsite.Client.Services.ProductService
 {
     public class ProductService : IProductService
     {

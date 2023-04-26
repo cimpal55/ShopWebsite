@@ -10,6 +10,8 @@ namespace ShopWebsite.Server.Utils.ServiceRegistration
         private static IServiceCollection AddServices(this IServiceCollection @this) =>
             @this
                 .AddScoped<IProductService, ProductService>()
-                .AddScoped<ICategoryService, CategoryService>();
+                .AddScoped<ICategoryService, CategoryService>()
+                .AddScoped<ICartService, CartService>()
+                .AddScoped<IAuthService, AuthService>();
     }
 }

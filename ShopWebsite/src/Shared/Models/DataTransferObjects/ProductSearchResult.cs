@@ -1,4 +1,6 @@
-﻿namespace ShopWebsite.Shared.Models.Data
+﻿using ShopWebsite.Shared.Models.Data;
+
+namespace ShopWebsite.Shared.Models.DataTransferObjects
 {
     public class ProductSearchResult
     {

@@ -1,4 +1,4 @@
-﻿namespace ShopWebsite.Shared.Models.Services
+﻿namespace ShopWebsite.Shared.Models.DataTransferObjects
 {
     public class ServiceResponse<T>
     {

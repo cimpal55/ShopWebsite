@@ -1,9 +1,11 @@
 global using ShopWebsite.Shared.Models.Data;
-global using ShopWebsite.Shared.Models.Services;
+global using ShopWebsite.Shared.Models.DataTransferObjects;
 global using Microsoft.EntityFrameworkCore;
 global using ShopWebsite.Server.Data;
 global using ShopWebsite.Server.Services.ProductService;
 global using ShopWebsite.Server.Services.CategoryService;
+global using ShopWebsite.Server.Services.CartService;
+global using ShopWebsite.Server.Services.AuthService;
 using Microsoft.AspNetCore.ResponseCompression;
 using ShopWebsite.Server.Utils.ServiceRegistration;
 

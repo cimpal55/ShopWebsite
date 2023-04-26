@@ -1,4 +1,6 @@
-﻿namespace ShopWebsite.Server.Services.CategoryService
+﻿using ShopWebsite.Shared.Models.DataTransferObjects;
+
+namespace ShopWebsite.Server.Services.CategoryService
 {
     public class CategoryService : ICategoryService
     {
