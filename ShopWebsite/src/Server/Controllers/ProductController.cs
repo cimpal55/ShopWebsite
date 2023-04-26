@@ -34,10 +34,10 @@ namespace ShopWebsite.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet("search/{searchString}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> SearchProducts(string searchString)
+        [HttpGet("search/{searchString}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProducts(string searchString, int page = 1)
         {
-            var result = await _productService.SearchProducts(searchString);
+            var result = await _productService.SearchProducts(searchString, page);
             return Ok(result);
         }
 

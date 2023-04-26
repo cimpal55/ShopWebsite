@@ -38,7 +38,7 @@ else
         _productService.ProductsChanged += StateHasChanged;
     }
 
-    protected override void Dispose()
+    public void Dispose()
     {
         _productService.ProductsChanged -= StateHasChanged;
     }
