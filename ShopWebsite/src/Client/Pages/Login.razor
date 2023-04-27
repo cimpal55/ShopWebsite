@@ -1,6 +1,8 @@
 ﻿@page "/login"
+@using Microsoft.AspNetCore.WebUtilities
 @inject IAuthService _authService
 @inject ILocalStorageService _localStorage
+@inject ICartService _cartService
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationState
 
@@ -31,6 +33,17 @@
 
     private string errorMessage = string.Empty;
 
+    private string returnUrl = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        var uri = _navigationManager.ToAbsoluteUri(_navigationManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("return", out var url))
+        {
+            returnUrl = url;
+        }
+    }
+
     private async Task HandleLogin()
     {
         var result = await _authService.Login(user);
@@ -40,7 +53,9 @@
 
             await _localStorage.SetItemAsync("authToken", result.Data);
             await _authenticationState.GetAuthenticationStateAsync();
-            _navigationManager.NavigateTo("");
+            await _cartService.StoreCartItems(true);
+            await _cartService.GetCartItemsCount();
+            _navigationManager.NavigateTo(returnUrl);
         }
         else
         {
