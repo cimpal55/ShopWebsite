@@ -1,4 +1,4 @@
-﻿namespace ShopWebsite.Shared.Models.DataTransferObjects
+﻿namespace ShopWebsite.Shared.Models.Data
 {
     public class CartItem
     {

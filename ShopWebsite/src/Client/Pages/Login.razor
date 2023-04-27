@@ -2,9 +2,9 @@
 @using Microsoft.AspNetCore.WebUtilities
 @inject IAuthService _authService
 @inject ILocalStorageService _localStorage
-@inject ICartService _cartService
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationState
+@inject ICartService _cartService
 
 <PageTitle>Login</PageTitle>
 
@@ -29,7 +29,7 @@
 </div>
 
 @code {
-    private UserLogin user = new();
+    private UserLogin user = new UserLogin();
 
     private string errorMessage = string.Empty;
 
@@ -38,7 +38,7 @@
     protected override void OnInitialized()
     {
         var uri = _navigationManager.ToAbsoluteUri(_navigationManager.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("return", out var url))
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("returnUrl", out var url))
         {
             returnUrl = url;
         }
@@ -54,7 +54,6 @@
             await _localStorage.SetItemAsync("authToken", result.Data);
             await _authenticationState.GetAuthenticationStateAsync();
             await _cartService.StoreCartItems(true);
-            await _cartService.GetCartItemsCount();
             _navigationManager.NavigateTo(returnUrl);
         }
         else

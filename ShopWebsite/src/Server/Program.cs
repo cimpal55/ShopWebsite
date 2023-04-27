@@ -6,6 +6,7 @@ global using ShopWebsite.Server.Services.ProductService;
 global using ShopWebsite.Server.Services.CategoryService;
 global using ShopWebsite.Server.Services.CartService;
 global using ShopWebsite.Server.Services.AuthService;
+global using ShopWebsite.Server.Services.OrderService;
 using Microsoft.AspNetCore.ResponseCompression;
 using ShopWebsite.Server.Utils.ServiceRegistration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

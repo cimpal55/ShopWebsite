@@ -5,6 +5,7 @@ global using ShopWebsite.Client.Services.ProductService;
 global using ShopWebsite.Client.Services.CategoryService;
 global using ShopWebsite.Client.Services.CartService;
 global using ShopWebsite.Client.Services.AuthService;
+global using ShopWebsite.Client.Services.OrderService;
 global using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

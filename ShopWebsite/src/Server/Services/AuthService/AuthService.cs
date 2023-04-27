@@ -10,10 +10,18 @@ namespace ShopWebsite.Server.Services.AuthService
     {
         private readonly DataContext _context;
         private readonly IConfiguration _configuration;
-        public AuthService(DataContext context, IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AuthService(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
+        }
+        public int GetUserId()
+        {
+            var context = _httpContextAccessor.HttpContext;
+            return int.Parse(context.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
         public async Task<ServiceResponse<string>> Login(string email, string password)
@@ -58,17 +66,13 @@ namespace ShopWebsite.Server.Services.AuthService
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return new ServiceResponse<int>
-            {
-                Data = user.Id,
-                Message = "Registration successful!"
-            };
+            return new ServiceResponse<int> { Data = user.Id, Message = "Registration successful!" };
         }
 
         public async Task<bool> UserExists(string email)
         {
             if (await _context.Users.AnyAsync(user => user.Email.ToLower()
-                .Equals(email.ToLower())))
+                 .Equals(email.ToLower())))
             {
                 return true;
             }
@@ -80,7 +84,8 @@ namespace ShopWebsite.Server.Services.AuthService
             using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac
+                    .ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
 
@@ -88,17 +93,19 @@ namespace ShopWebsite.Server.Services.AuthService
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                var computedHash =
+                    hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
                 return computedHash.SequenceEqual(passwordHash);
             }
         }
-        
+
         private string CreateToken(User user)
         {
-            List<Claim> claims = new()
+            List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
@@ -107,9 +114,9 @@ namespace ShopWebsite.Server.Services.AuthService
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds);
+                    claims: claims,
+                    expires: DateTime.Now.AddDays(1),
+                    signingCredentials: creds);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
@@ -135,11 +142,7 @@ namespace ShopWebsite.Server.Services.AuthService
 
             await _context.SaveChangesAsync();
 
-            return new ServiceResponse<bool>
-            {
-                Data = true,
-                Message = "Password has been changed."
-            };
+            return new ServiceResponse<bool> { Data = true, Message = "Password has been changed." };
         }
     }
 }

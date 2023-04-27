@@ -9,6 +9,7 @@ namespace ShopWebsite.Server.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+
         public ProductController(IProductService productService)
         {
             _productService = productService;
@@ -22,12 +23,12 @@ namespace ShopWebsite.Server.Controllers
         }
 
         [HttpGet("{productId}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProduct(int productId)
+        public async Task<ActionResult<ServiceResponse<Product>>> GetProduct(int productId)
         {
             var result = await _productService.GetProductAsync(productId);
             return Ok(result);
         }
-        
+
         [HttpGet("category/{categoryUrl}")]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductsByCategory(string categoryUrl)
         {
@@ -35,20 +36,20 @@ namespace ShopWebsite.Server.Controllers
             return Ok(result);
         }
 
-        [HttpGet("search/{searchString}/{page}")]
-        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProducts(string searchString, int page = 1)
+        [HttpGet("search/{searchText}/{page}")]
+        public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProducts(string searchText, int page = 1)
         {
-            var result = await _productService.SearchProducts(searchString, page);
+            var result = await _productService.SearchProducts(searchText, page);
             return Ok(result);
         }
 
         [HttpGet("searchsuggestions/{searchText}")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> SearchSuggestions(string searchText)
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductSearchSuggestions(string searchText)
         {
             var result = await _productService.SearchSuggestions(searchText);
             return Ok(result);
         }
-        
+
         [HttpGet("featured")]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetFeaturedProducts()
         {

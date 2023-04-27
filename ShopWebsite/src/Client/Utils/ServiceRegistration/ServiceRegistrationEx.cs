@@ -13,6 +13,7 @@ namespace ShopWebsite.Client.Utils.ServiceRegistration
                 .AddScoped<ICategoryService, CategoryService>()
                 .AddScoped<ICartService, CartService>()
                 .AddScoped<IAuthService, AuthService>()
-                .AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+                .AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>()
+                .AddScoped<IOrderService, OrderService>();
     }
 }

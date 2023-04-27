@@ -10,6 +10,7 @@ namespace ShopWebsite.Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+
         public AuthController(IAuthService authService)
         {
             _authService = authService;
@@ -19,16 +20,17 @@ namespace ShopWebsite.Server.Controllers
         public async Task<ActionResult<ServiceResponse<int>>> Register(UserRegister request)
         {
             var response = await _authService.Register(
-                new User 
-                { 
-                    Email = request.Email 
+                new User
+                {
+                    Email = request.Email
                 },
                 request.Password);
-            
+
             if (!response.Success)
             {
                 return BadRequest(response);
             }
+
             return Ok(response);
         }
 
@@ -36,11 +38,11 @@ namespace ShopWebsite.Server.Controllers
         public async Task<ActionResult<ServiceResponse<string>>> Login(UserLogin request)
         {
             var response = await _authService.Login(request.Email, request.Password);
-
             if (!response.Success)
             {
                 return BadRequest(response);
             }
+
             return Ok(response);
         }
 
@@ -55,7 +57,7 @@ namespace ShopWebsite.Server.Controllers
                 return BadRequest(response);
             }
 
-            return Ok(response);      
+            return Ok(response);
         }
     }
 }
