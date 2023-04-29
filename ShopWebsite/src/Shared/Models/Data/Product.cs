@@ -12,6 +12,12 @@ namespace ShopWebsite.Shared.Models.Data
         public int CategoryId { get; set; }
         public List<ProductVariant> Variants { get; set; } = new();
         public bool Featured { get; set; } = false;
+        public bool Visible { get; set; } = true;
+        public bool Deleted { get; set; } = false;
+        [NotMapped]
+        public bool Editing { get; set; } = false;
+        [NotMapped]
+        public bool IsNew { get; set; } = false;
         public DateTime DateCreated { get; set; } = DateTime.Now;
     }
 }

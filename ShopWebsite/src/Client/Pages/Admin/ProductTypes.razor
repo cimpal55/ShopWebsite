@@ -1,5 +1,7 @@
 ﻿@page "/admin/product-types"
 @inject IProductTypeService _productTypeService
+@implements IDisposable
+@attribute [Authorize(Roles = "Admin")]
 
 <h3>ProductTypes</h3>
 
@@ -34,7 +36,7 @@
         </div>    
     }
 }
-    <button class="btn btn-primary" onclick="CreateNewProductType">
+    <button class="btn btn-primary" @onclick="CreateNewProductType">
         <i class="oi oi-plus"></i> Add new product type
     </button>
 
@@ -44,6 +46,12 @@
     protected override async Task OnInitializedAsync()
     {
         await _productTypeService.GetProductTypes();
+        _productTypeService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _productTypeService.OnChange -= StateHasChanged;
     }
 
     private void EditProductType(ProductType productType)
@@ -52,13 +60,18 @@
         editingProductType = productType;
     }
 
-    private void CreateNewProductType()
+    private async void CreateNewProductType()
     {
-
+        editingProductType = _productTypeService.CreateNewProductType();
+        StateHasChanged();
     }
 
     private async Task UpdateProductType()
     {
-        
+        if (editingProductType.IsNew)
+            await _productTypeService.AddProductType(editingProductType);
+        else
+            await _productTypeService.UpdateProductType(editingProductType);
+        editingProductType = new ProductType();        
     }
 }

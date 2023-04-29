@@ -10,6 +10,10 @@ namespace ShopWebsite.Server.Services.ProductService
         Task<ServiceResponse<ProductSearchResult>> SearchProducts(string searchString, int page);
         Task<ServiceResponse<List<string>>> SearchSuggestions(string searchString);
         Task<ServiceResponse<List<Product>>> GetFeaturedProductsAsync();
+        Task<ServiceResponse<List<Product>>> GetAdminProducts();
+        Task<ServiceResponse<Product>> CreateProduct(Product product);
+        Task<ServiceResponse<Product>> UpdateProduct(Product product);
+        Task<ServiceResponse<bool>> DeleteProduct(int productId);
 
     }
 }
