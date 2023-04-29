@@ -13,6 +13,9 @@ namespace ShopWebsite.Server.Utils.ServiceRegistration
                 .AddScoped<IAuthService, AuthService>()
                 .AddScoped<ICategoryService, CategoryService>()
                 .AddScoped<ICartService, CartService>()
-                .AddScoped<IOrderService, OrderService>();
+                .AddScoped<IOrderService, OrderService>()
+                .AddScoped<IPaymentService, PaymentService>()
+                .AddScoped<IAddressService, AddressService>()
+                .AddScoped<IProductTypeService, ProductTypeService>();
     }
 }

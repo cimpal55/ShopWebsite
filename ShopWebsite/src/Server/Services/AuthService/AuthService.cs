@@ -23,6 +23,11 @@ namespace ShopWebsite.Server.Services.AuthService
             var context = _httpContextAccessor.HttpContext;
             return int.Parse(context.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
+        public string GetUserEmail()
+        {
+            var context = _httpContextAccessor.HttpContext;
+            return context.User.FindFirstValue(ClaimTypes.Name);
+        }
 
         public async Task<ServiceResponse<string>> Login(string email, string password)
         {
@@ -143,6 +148,10 @@ namespace ShopWebsite.Server.Services.AuthService
             await _context.SaveChangesAsync();
 
             return new ServiceResponse<bool> { Data = true, Message = "Password has been changed." };
+        }
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email.Equals(email));
         }
     }
 }

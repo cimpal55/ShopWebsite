@@ -3,9 +3,12 @@
     public class AuthService : IAuthService
     {
         private readonly HttpClient _http;
-        public AuthService(HttpClient http)
+        private readonly AuthenticationStateProvider _authStateProvider;
+
+        public AuthService(HttpClient http, AuthenticationStateProvider authStateProvider)
         {
             _http = http;
+            _authStateProvider = authStateProvider;
         }
         
         public async Task<ServiceResponse<bool>> ChangePassword(UserChangePassword request)
@@ -25,5 +28,10 @@
             var result = await _http.PostAsJsonAsync("api/auth/register", request);
             return await result.Content.ReadFromJsonAsync<ServiceResponse<int>>();
         }
+        public async Task<bool> IsUserAuthenticated()
+        {
+            return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
+        }
+
     }
 }
