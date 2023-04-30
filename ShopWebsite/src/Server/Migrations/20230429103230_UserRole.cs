@@ -12,7 +12,7 @@ namespace ShopWebsite.Server.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "Role",
                 table: "Users",
-                type: "nvarchar(max)",
+                type: "nvarchar(200)",
                 nullable: false,
                 defaultValue: "");
 
